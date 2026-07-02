@@ -32,7 +32,7 @@ Reactを用いた画面実装、状態管理、API通信、ルーティングな
 
 ### 記事一覧
 
-![カテゴリー編集](docs/images/article-list.jpg)
+![記事一覧](docs/images/article-list.jpg)
 
 ---
 
