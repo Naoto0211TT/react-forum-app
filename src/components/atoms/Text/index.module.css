@@ -1,0 +1,43 @@
+.bold {
+  font-weight: var(--font-weight-bold);
+}
+
+.main {
+  color: var(--color-text-main);
+}
+
+.purple {
+  color: var(--color-text-purple);
+}
+
+.primary {
+  color: var(--color-primary);
+}
+
+.error {
+  color: var(--color-text-red);
+}
+
+.purple-dark {
+  color: var(--color-text-purple-dark);
+}
+
+.xl {
+  font-size: 24px;
+}
+
+.lg {
+  font-size: 20px;
+}
+
+.md {
+  font-size: 16px;
+}
+
+.sm {
+  font-size: 14px;
+}
+
+.xs {
+  font-size: 12px;
+}

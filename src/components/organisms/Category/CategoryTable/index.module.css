@@ -1,0 +1,11 @@
+.align-right {
+  text-align: right;
+}
+
+.size--md {
+  width: 80%;
+}
+
+.size--auto {
+  width: auto;
+}

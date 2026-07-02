@@ -1,0 +1,44 @@
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.mainColor path {
+  color: var(--color-text-main);
+  stroke: var(--color-text-main);
+}
+
+.purple path {
+  color: var(--color-text-purple);
+  stroke: var(--color-text-purple);
+}
+
+.purple polyline {
+  color: var(--color-text-purple);
+  stroke: var(--color-text-purple);
+}
+
+.success path {
+  color: var(--color-border-success);
+  stroke: var(--color-border-success);
+}
+
+.danger path {
+  color: var(--color-border-danger);
+  stroke: var(--color-border-danger);
+}
+
+.warning path {
+  color: var(--color-border-warning);
+  stroke: var(--color-border-warning);
+}
+
+.information path {
+  color: var(--color-border-info);
+  stroke: var(--color-border-info);
+}
+
+.primary path {
+  color: var(--color-primary);
+  stroke: var(--color-primary);
+}

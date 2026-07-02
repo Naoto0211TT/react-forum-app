@@ -1,0 +1,15 @@
+.align-right {
+  text-align: right;
+}
+
+.size--sm {
+  width: 36%;
+}
+
+.size--md {
+  width: 48%;
+}
+
+.size--auto {
+  width: auto;
+}

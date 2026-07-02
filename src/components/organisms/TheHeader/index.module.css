@@ -1,0 +1,14 @@
+.the-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px 15px 15px;
+  box-shadow: 0 1px 5px 0 var(--color-border);
+}
+
+.drop-down-wrapper {
+  position: absolute;
+  top: 50px;
+  right: 0;
+}

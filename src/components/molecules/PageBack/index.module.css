@@ -1,0 +1,12 @@
+.page-back {
+  transition: opacity var(--hover-interactive-element-duration);
+}
+
+.page-back:hover {
+  opacity: var(--hover-interactive-element-opacity);
+}
+
+.text {
+  display: inline-block;
+  vertical-align: -1px;
+}

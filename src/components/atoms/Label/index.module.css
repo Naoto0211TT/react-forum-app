@@ -1,0 +1,16 @@
+.label {
+  font-weight: bold;
+  color: var(--color-text-purple-dark);
+}
+
+.lg {
+  font-size: 20px;
+}
+
+.md {
+  font-size: 16px;
+}
+
+.sm {
+  font-size: 14px;
+}

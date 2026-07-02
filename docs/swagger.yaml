@@ -1,0 +1,1823 @@
+swagger: '2.0'
+info:
+  title: 'gizumo_wiki'
+  version: '1.0.0'
+host: 'api.wiki.gizumo-inc.work'
+basePath: '/api'
+schemes:
+  - 'http'
+paths:
+  '/me':
+    post:
+      tags:
+        - 'Auth'
+      summary: '認証トークン作成'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'email'
+          in: 'formData'
+          description: 'メールアドレス'
+          required: true
+          type: 'string'
+        - name: 'password'
+          in: 'formData'
+          description: 'パスワード'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: 'object'
+            properties:
+              token:
+                type: 'string'
+                example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkud2lraS5naXp1bW8taW5jLndvcmtcL2FwaVwvbWUiLCJpYXQiOjE1NjIyMDkwMjksImV4cCI6MTU2MjI5NTQyOSwibmJmIjoxNTYyMjA5MDI5LCJqdGkiOiJrVU9Kb3ZjTTJKRDlKbDJFIiwic3ViIjoxLCJwcnYiOiJmOTMwN2ViNWYyOWM3MmE5MGRiYWFlZjBlMjZmMDI2MmVkZTg2ZjU1In0.fAvkf7CAcVcpqxRWdpmQk2clbCbxuYgbs9aqIYXLgAs'
+              token_type:
+                type: 'string'
+                example: 'bearer'
+              expire_in:
+                type: 'integer'
+                example: 86400
+    get:
+      tags:
+        - 'Auth'
+      summary: 'ログインユーザー情報取得'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: 'トークン'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: 'object'
+            properties:
+              id:
+                type: 'integer'
+                example: 1
+              account_name:
+                type: 'string'
+                example: 'shohei17'
+              full_name:
+                type: 'string'
+                example: '大谷 翔平'
+              email:
+                type: 'string'
+                example: 'shohei17@test.com'
+              role:
+                type: 'string'
+                example: 'system'
+              password_reset_flg:
+                type: 'integer'
+                example: 0
+  '/logout':
+    get:
+      tags:
+        - 'Auth'
+      summary: 'ログアウト'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: 'トークン'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: 'object'
+            properties:
+              message:
+                type: 'string'
+                example: 'success'
+  '/user':
+    get:
+      tags:
+        - 'User'
+      summary: 'ユーザー一覧取得'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    account_name:
+                      type: 'string'
+                      example: 'shohei17'
+                    full_name:
+                      type: 'integer'
+                      example: '大谷 翔平'
+                    email:
+                      type: 'string'
+                      example: 'shohei17@test.com'
+                    role:
+                      type: object
+                      properties:
+                        id:
+                          type: 'integer'
+                          example: 1
+                        name:
+                          type: 'string'
+                          example: 'システム管理者'
+                        value:
+                          type: 'string'
+                          example: 'system'
+                    password_reset_flg:
+                      type: 'integer'
+                      example: 0
+        201:
+          description: Successful response after
+          schema:
+            type: object
+            properties:
+              users:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    account_name:
+                      type: 'string'
+                      example: 'shohei17'
+                    full_name:
+                      type: 'integer'
+                      example: '大谷 翔平'
+                    email:
+                      type: 'string'
+                      example: 'shohei17@test.com'
+                    role:
+                      type: object
+                      properties:
+                        id:
+                          type: 'integer'
+                          example: 1
+                        name:
+                          type: 'string'
+                          example: 'システム管理者'
+                        value:
+                          type: 'string'
+                          example: 'system'
+                    password_reset_flg:
+                      type: 'integer'
+                      example: 0
+              links:
+                type: object
+                properties:
+                  first:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/user?page=1'
+                  last:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/user?page=3'
+                  prev:
+                    type: 'boolean'
+                    example: null
+                  next:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/user?page=2'
+              meta:
+                type: object
+                properties:
+                  current_page:
+                    type: 'integer'
+                    example: 1
+                  from:
+                    type: 'integer'
+                    example: 1
+                  last_page:
+                    type: 'integer'
+                    example: 3
+                  path:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/user'
+                  per_page:
+                    type: 'integer'
+                    example: 30
+                  to:
+                    type: 'integer'
+                    example: 30
+                  total:
+                    type: 'integer'
+                    example: 68
+
+    post:
+      tags:
+        - 'User'
+      summary: 'ユーザー登録'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'account_name'
+          in: 'formData'
+          description: 'アカウントネーム'
+          required: true
+          type: 'string'
+        - name: 'email'
+          in: 'formData'
+          description: 'メールアドレス'
+          required: true
+          type: 'string'
+        - name: 'password'
+          in: 'formData'
+          description: 'パスワード'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  account_name:
+                    type: 'string'
+                    example: 'shohei17'
+                  full_name:
+                    type: 'integer'
+                    example: '大谷 翔平'
+                  email:
+                    type: 'string'
+                    example: 'shohei17@test.com'
+                  role:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: 'システム管理者'
+                      value:
+                        type: 'string'
+                        example: 'system'
+                  password_reset_flg:
+                    type: 'integer'
+                    example: 0
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+  '/user/{id}':
+    get:
+      tags:
+        - 'User'
+      summary: 'ユーザー詳細取得'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '詳細取得するユーザーデータのID'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  account_name:
+                    type: 'string'
+                    example: 'shohei17'
+                  full_name:
+                    type: 'integer'
+                    example: '大谷 翔平'
+                  email:
+                    type: 'string'
+                    example: 'shohei17@test.com'
+                  role:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: 'システム管理者'
+                      value:
+                        type: 'string'
+                        example: 'system'
+                  password_reset_flg:
+                    type: 'integer'
+                    example: 0
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+              role:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    name:
+                      type: 'string'
+                      example: 'システム管理者'
+                    value:
+                      type: 'string'
+                      example: 'system'
+    put:
+      tags:
+        - 'User'
+      summary: 'ユーザー更新'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '更新するユーザーデータのID'
+          required: true
+          type: 'integer'
+        - name: 'account_name'
+          in: 'formData'
+          description: 'アカウントネーム'
+          required: false
+          type: 'string'
+        - name: 'full_name'
+          in: 'formData'
+          description: '姓名'
+          required: false
+          type: 'string'
+        - name: 'email'
+          in: 'formData'
+          description: 'メールアドレス'
+          required: false
+          type: 'string'
+        - name: 'password'
+          in: 'formData'
+          description: 'パスワード'
+          required: false
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  account_name:
+                    type: 'string'
+                    example: 'shohei17'
+                  full_name:
+                    type: 'integer'
+                    example: '大谷 翔平'
+                  email:
+                    type: 'string'
+                    example: 'shohei17@test.com'
+                  role:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: 'システム管理者'
+                      value:
+                        type: 'string'
+                        example: 'system'
+                  password_reset_flg:
+                    type: 'integer'
+                    example: 0
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+    delete:
+      tags:
+        - 'User'
+      summary: 'ユーザー削除'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '削除するユーザーデータのID'
+          required: true
+          type: 'integer'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  account_name:
+                    type: 'string'
+                    example: 'shohei17'
+                  full_name:
+                    type: 'integer'
+                    example: '大谷 翔平'
+                  email:
+                    type: 'string'
+                    example: 'shohei17@test.com'
+                  role:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: 'システム管理者'
+                      value:
+                        type: 'string'
+                        example: 'system'
+                  password_reset_flg:
+                    type: 'integer'
+                    example: 0
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+  '/user/password/update':
+    post:
+      tags:
+        - 'User'
+      summary: 'パスワード再設定'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'password'
+          in: 'path'
+          description: '現在のパスワード'
+          required: true
+          type: 'string'
+        - name: 'new_password'
+          in: 'path'
+          description: '新しいパスワード'
+          required: true
+          type: 'string'
+        - name: 'new_password_confirm'
+          in: 'path'
+          description: '新しいパスワード確認用'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  account_name:
+                    type: 'string'
+                    example: 'shohei17'
+                  full_name:
+                    type: 'integer'
+                    example: '大谷 翔平'
+                  email:
+                    type: 'string'
+                    example: 'shohei17@test.com'
+                  role:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: 'システム管理者'
+                      value:
+                        type: 'string'
+                        example: 'system'
+                  password_reset_flg:
+                    type: 'integer'
+                    example: 0
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+  '/article':
+    get:
+      tags:
+        - 'Article'
+      summary: '記事一覧取得'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'page'
+          in: 'query'
+          description: 'ページ番号'
+          type: 'integer'
+          x-example: 123
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              articles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    user:
+                      type: object
+                      properties:
+                        user:
+                          type: object
+                          properties:
+                            id:
+                              type: 'integer'
+                              example: 1
+                            account_name:
+                              type: 'string'
+                              example: 'shohei17'
+                            full_name:
+                              type: 'string'
+                              example: 'system'
+                            email:
+                              type: 'string'
+                              example: 'shohei17@test.com'
+                            roll:
+                              type: object
+                              properties:
+                                id:
+                                  type: 'integer'
+                                  example: 1
+                                name:
+                                  type: 'string'
+                                  example: 'システム管理者'
+                                value:
+                                  type: 'string'
+                                  example: 'system'
+                            password_reset_flg:
+                              type: 'integer'
+                              example: 0
+                            created_at:
+                              type: 'string'
+                              example: '2019-07-04 03:00:13'
+                            updated_at:
+                              type: 'string'
+                              example: '2019-07-04 03:00:13'
+                    title:
+                      type: 'string'
+                      example: 'hogehogehoge'
+                    content:
+                      type: 'string'
+                      example: 'fugafugafuga'
+                    category:
+                      type: object
+                      properties:
+                        category:
+                          type: object
+                          properties:
+                            id:
+                              type: 'integer'
+                              example: 1
+                            name:
+                              type: 'string'
+                              example: '派遣'
+                    created_at:
+                      type: 'string'
+                      example: '2019-07-04 03:00:13'
+                    updated_at:
+                      type: 'string'
+                      example: '2019-07-04 03:00:13'
+              links:
+                type: object
+                properties:
+                  first:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article?page=1'
+                  last:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article?page=3'
+                  prev:
+                    type: 'boolean'
+                    example: null
+                  next:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article?page=2'
+              meta:
+                type: object
+                properties:
+                  current_page:
+                    type: 'integer'
+                    example: 1
+                  from:
+                    type: 'integer'
+                    example: 1
+                  last_page:
+                    type: 'integer'
+                    example: 3
+                  path:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article'
+                  per_page:
+                    type: 'integer'
+                    example: 30
+                  to:
+                    type: 'integer'
+                    example: 30
+                  total:
+                    type: 'integer'
+                    example: 68
+        201:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              articles:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    user:
+                      type: object
+                      properties:
+                        id:
+                          type: 'integer'
+                          example: 1
+                        account_name:
+                          type: 'string'
+                          example: 'shohei17'
+                        full_name:
+                          type: 'string'
+                          example: 'system'
+                        email:
+                          type: 'string'
+                          example: 'shohei17@test.com'
+                        roll:
+                          type: object
+                          properties:
+                            id:
+                              type: 'integer'
+                              example: 1
+                            name:
+                              type: 'string'
+                              example: 'システム管理者'
+                            value:
+                              type: 'string'
+                              example: 'system'
+                        password_reset_flg:
+                          type: 'integer'
+                          example: 0
+                        created_at:
+                          type: 'string'
+                          example: '2019-07-04 03:00:13'
+                        updated_at:
+                          type: 'string'
+                          example: '2019-07-04 03:00:13'
+                    title:
+                      type: 'string'
+                      example: 'hogehogehoge'
+                    content:
+                      type: 'string'
+                      example: 'fugafugafuga'
+                    category:
+                      type: object
+                      properties:
+                        id:
+                          type: 'integer'
+                          example: 1
+                        name:
+                          type: 'string'
+                          example: '派遣'
+                    created_at:
+                      type: 'string'
+                      example: '2019-07-04 03:00:13'
+                    updated_at:
+                      type: 'string'
+                      example: '2019-07-04 03:00:13'
+              links:
+                type: object
+                properties:
+                  first:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article?page=1'
+                  last:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article?page=3'
+                  prev:
+                    type: 'boolean'
+                    example: null
+                  next:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article?page=2'
+              meta:
+                type: object
+                properties:
+                  current_page:
+                    type: 'integer'
+                    example: 1
+                  from:
+                    type: 'integer'
+                    example: 1
+                  last_page:
+                    type: 'integer'
+                    example: 3
+                  path:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/article'
+                  per_page:
+                    type: 'integer'
+                    example: 30
+                  to:
+                    type: 'integer'
+                    example: 30
+                  total:
+                    type: 'integer'
+                    example: 68
+    post:
+      tags:
+        - 'Article'
+      summary: '記事登録'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'title'
+          in: 'formData'
+          description: '記事のタイトル'
+          required: true
+          type: 'string'
+        - name: 'content'
+          in: 'formData'
+          description: '記事の内容'
+          required: false
+          type: 'string'
+        - name: 'category_id'
+          in: 'formData'
+          description: 'カテゴリーID'
+          required: false
+          type: 'integer'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          account_name:
+                            type: 'string'
+                            example: 'shohei17'
+                          full_name:
+                            type: 'string'
+                            example: 'system'
+                          email:
+                            type: 'string'
+                            example: 'shohei17@test.com'
+                          roll:
+                            type: object
+                            properties:
+                              id:
+                                type: 'integer'
+                                example: 1
+                              name:
+                                type: 'string'
+                                example: 'システム管理者'
+                              value:
+                                type: 'string'
+                                example: 'system'
+                          password_reset_flg:
+                            type: 'integer'
+                            example: 0
+                          created_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                          updated_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      category:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+        201:
+          description: Successful response after
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      account_name:
+                        type: 'string'
+                        example: 'shohei17'
+                      full_name:
+                        type: 'string'
+                        example: 'system'
+                      email:
+                        type: 'string'
+                        example: 'shohei17@test.com'
+                      roll:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: 'システム管理者'
+                          value:
+                            type: 'string'
+                            example: 'system'
+                      password_reset_flg:
+                        type: 'integer'
+                        example: 0
+                      created_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                      updated_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+  '/article/{id}':
+    get:
+      tags:
+        - 'Article'
+      summary: '記事詳細取得'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '詳細取得する記事データのID'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          account_name:
+                            type: 'string'
+                            example: 'shohei17'
+                          full_name:
+                            type: 'string'
+                            example: 'system'
+                          email:
+                            type: 'string'
+                            example: 'shohei17@test.com'
+                          roll:
+                            type: object
+                            properties:
+                              id:
+                                type: 'integer'
+                                example: 1
+                              name:
+                                type: 'string'
+                                example: 'システム管理者'
+                              value:
+                                type: 'string'
+                                example: 'system'
+                          password_reset_flg:
+                            type: 'integer'
+                            example: 0
+                          created_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                          updated_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      category:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+        201:
+          description: Successful response after
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      account_name:
+                        type: 'string'
+                        example: 'shohei17'
+                      full_name:
+                        type: 'string'
+                        example: 'system'
+                      email:
+                        type: 'string'
+                        example: 'shohei17@test.com'
+                      roll:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: 'システム管理者'
+                          value:
+                            type: 'string'
+                            example: 'system'
+                      password_reset_flg:
+                        type: 'integer'
+                        example: 0
+                      created_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                      updated_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+    put:
+      tags:
+        - 'Article'
+      summary: '記事更新'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '更新する記事データのID'
+          required: true
+          type: 'integer'
+        - name: 'title'
+          in: 'formData'
+          description: '記事のタイトル'
+          required: true
+          type: 'string'
+        - name: 'content'
+          in: 'formData'
+          description: '記事の内容'
+          required: false
+          type: 'string'
+        - name: 'category_id'
+          in: 'formData'
+          description: 'カテゴリーID'
+          required: false
+          type: 'integer'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          account_name:
+                            type: 'string'
+                            example: 'shohei17'
+                          full_name:
+                            type: 'string'
+                            example: 'system'
+                          email:
+                            type: 'string'
+                            example: 'shohei17@test.com'
+                          roll:
+                            type: object
+                            properties:
+                              id:
+                                type: 'integer'
+                                example: 1
+                              name:
+                                type: 'string'
+                                example: 'システム管理者'
+                              value:
+                                type: 'string'
+                                example: 'system'
+                          password_reset_flg:
+                            type: 'integer'
+                            example: 0
+                          created_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                          updated_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      category:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+        201:
+          description: Successful response after
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      account_name:
+                        type: 'string'
+                        example: 'shohei17'
+                      full_name:
+                        type: 'string'
+                        example: 'system'
+                      email:
+                        type: 'string'
+                        example: 'shohei17@test.com'
+                      roll:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: 'システム管理者'
+                          value:
+                            type: 'string'
+                            example: 'system'
+                      password_reset_flg:
+                        type: 'integer'
+                        example: 0
+                      created_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                      updated_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+    delete:
+      tags:
+        - 'Article'
+      summary: '記事削除'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '更新する記事データのID'
+          required: true
+          type: 'integer'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          account_name:
+                            type: 'string'
+                            example: 'shohei17'
+                          full_name:
+                            type: 'string'
+                            example: 'system'
+                          email:
+                            type: 'string'
+                            example: 'shohei17@test.com'
+                          roll:
+                            type: object
+                            properties:
+                              id:
+                                type: 'integer'
+                                example: 1
+                              name:
+                                type: 'string'
+                                example: 'システム管理者'
+                              value:
+                                type: 'string'
+                                example: 'system'
+                          password_reset_flg:
+                            type: 'integer'
+                            example: 0
+                          created_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                          updated_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      category:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+        201:
+          description: Successful response after
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      account_name:
+                        type: 'string'
+                        example: 'shohei17'
+                      full_name:
+                        type: 'string'
+                        example: 'system'
+                      email:
+                        type: 'string'
+                        example: 'shohei17@test.com'
+                      roll:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: 'システム管理者'
+                          value:
+                            type: 'string'
+                            example: 'system'
+                      password_reset_flg:
+                        type: 'integer'
+                        example: 0
+                      created_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                      updated_at:
+                        type: 'string'
+                        example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      id:
+                        type: 'integer'
+                        example: 1
+                      name:
+                        type: 'string'
+                        example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+  '/article/trashed':
+    get:
+      tags:
+        - 'Article'
+      summary: '削除記事一覧取得'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              articles:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  user:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          account_name:
+                            type: 'string'
+                            example: 'shohei17'
+                          full_name:
+                            type: 'string'
+                            example: 'system'
+                          email:
+                            type: 'string'
+                            example: 'shohei17@test.com'
+                          roll:
+                            type: object
+                            properties:
+                              id:
+                                type: 'integer'
+                                example: 1
+                              name:
+                                type: 'string'
+                                example: 'システム管理者'
+                              value:
+                                type: 'string'
+                                example: 'system'
+                          password_reset_flg:
+                            type: 'integer'
+                            example: 0
+                          created_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                          updated_at:
+                            type: 'string'
+                            example: '2019-07-04 03:00:13'
+                  title:
+                    type: 'string'
+                    example: 'hogehogehoge'
+                  content:
+                    type: 'string'
+                    example: 'fugafugafuga'
+                  category:
+                    type: object
+                    properties:
+                      category:
+                        type: object
+                        properties:
+                          id:
+                            type: 'integer'
+                            example: 1
+                          name:
+                            type: 'string'
+                            example: '派遣'
+                  created_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+                  updated_at:
+                    type: 'string'
+                    example: '2019-07-04 03:00:13'
+  '/category':
+    get:
+      tags:
+        - 'Category'
+      summary: 'カテゴリー一覧取得'
+      produces:
+        - 'application/json'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                category:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    name:
+                      type: 'string'
+                      example: '教育'
+        201:
+          description: Successful response after
+          schema:
+            type: object
+            properties:
+              categories:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: 'integer'
+                      example: 1
+                    name:
+                      type: 'string'
+                      example: '教育'
+              links:
+                type: object
+                properties:
+                  first:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/category?page=1'
+                  last:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/category?page=3'
+                  prev:
+                    type: 'boolean'
+                    example: null
+                  next:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/category?page=2'
+              meta:
+                type: object
+                properties:
+                  current_page:
+                    type: 'integer'
+                    example: 1
+                  from:
+                    type: 'integer'
+                    example: 1
+                  last_page:
+                    type: 'integer'
+                    example: 3
+                  path:
+                    type: 'string'
+                    example: 'http://localhost:8081/api/category'
+                  per_page:
+                    type: 'integer'
+                    example: 30
+                  to:
+                    type: 'integer'
+                    example: 30
+                  total:
+                    type: 'integer'
+                    example: 68
+
+    post:
+      tags:
+        - 'Category'
+      summary: 'カテゴリー登録'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'name'
+          in: 'formData'
+          description: 'カテゴリー名'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: object
+            properties:
+              category:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  name:
+                    type: 'string'
+                    example: '教育'
+  '/category/{id}':
+    get:
+      tags:
+        - 'Category'
+      summary: 'カテゴリー詳細取得'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: path
+          description: '詳細取得するカテゴリーデータのID'
+          required: true
+          type: 'integer'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              category:
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  name:
+                    type: 'string'
+                    example: '教育'
+    put:
+      tags:
+        - 'Category'
+      summary: 'カテゴリー更新'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '更新するカテゴリーデータのID'
+          required: true
+          type: 'integer'
+        - name: 'name'
+          in: 'formData'
+          description: 'カテゴリー名'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: object
+            properties:
+              category:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  name:
+                    type: 'string'
+                    example: '教育'
+    delete:
+      tags:
+        - 'Category'
+      summary: 'カテゴリー削除'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+        - name: 'id'
+          in: 'path'
+          description: '削除するカテゴリーデータのID'
+          required: true
+          type: 'integer'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: object
+            properties:
+              category:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  name:
+                    type: 'string'
+                    example: '教育'
+  '/category/trashed':
+    get:
+      tags:
+        - 'Category'
+      summary: '削除カテゴリー一覧取得'
+      consumes:
+        - 'application/x-www-form-urlencoded'
+      parameters:
+        - name: 'Authorization'
+          in: 'header'
+          description: '認証トークン'
+          required: true
+          type: 'string'
+      responses:
+        200:
+          description: Successful response before
+          schema:
+            type: object
+            properties:
+              category:
+                type: object
+                properties:
+                  id:
+                    type: 'integer'
+                    example: 1
+                  name:
+                    type: 'string'
+                    example: '教育'
