@@ -1,135 +1,95 @@
-# react-wiki
+# React Wiki App
 
-ドキュメント管理システム（フロントコース 実践演習）
+## 概要
 
-## 目次
+前職のWebアプリケーション開発研修で制作した、ドキュメント管理システム（掲示板形式）のフロントエンドアプリケーションです。
 
-- [関連リンク](#links)
-- [要件](#requirements)
-- [環境構築](#environment)
-- [使用技術](#used-technology)
-- [ディレクトリ構成](#directory-config)
-- [Atomic Design 責務早見表](#atomic-design)
+Reactを用いた画面実装、状態管理、API通信、ルーティングなどを学ぶことを目的とした研修課題で、チーム開発を想定した環境で開発を行いました。
 
-<h2 id="links">関連リンク</h2>
+---
 
-<table>
-  <thead>
-    <tr>
-      <th>デザイン</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center">
-        <a
-          href="https://www.figma.com/file/9TigztFkXeiN14AgNYtGIa/react-wiki?type=design&t=ZoGKbljIILw9DSxN-6"
-          target="_blank"
-          style="display: inline-block"
-        >
-          <img src="/assets/image/figma.svg" height="40px" style="vertical-align: middle">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+## 担当内容
 
-<h2 id="requirements">要件</h2>
+本プロジェクトでは、カテゴリー機能の実装を担当しました。
 
-- volta がインストールされていること
-  - `volta -v`を実行しバージョンが表示されていれば問題ありません
+既存の記事機能を参考にしながら、カテゴリー機能に合わせて画面遷移・API・表示内容などを変更し、以下の機能を実装しました。
 
-<h2 id="environment">環境構築</h2>
+- カテゴリー一覧表示
+- カテゴリー作成
+- カテゴリー編集
+- カテゴリー削除
 
-1. リポジトリクローン & 対象フォルダへ移動
+既存コードを読み解きながら実装を進めることで、Reactコンポーネントの構成や設計、既存実装を活用した機能追加・改修の流れについて学びました。
 
-```sh
-git clone https://github.com/gizumo-education/react-wiki.git && cd react-wiki
-```
+---
+## 画面イメージ
 
-2. 依存モジュールのインストール
+### ログイン画面
 
-```sh
-npm i
-```
+![ログイン画面](docs/images/login.jpg)
 
-3. husky の Git フックを有効化
+---
 
-```sh
-npm run prepare
-```
+### 記事一覧
 
-4. 開発サーバー立ち上げ
+![カテゴリー編集](docs/images/article-list.jpg)
 
-```sh
+---
+
+### カテゴリー一覧
+
+![カテゴリー一覧](docs/images/category-list.jpg)
+
+---
+
+### カテゴリー作成
+
+![カテゴリー作成](docs/images/category-create.jpg)
+
+### カテゴリー別記事一覧
+
+![カテゴリー別記事一覧](docs/images/category-article.jpg)
+
+---
+## 使用技術
+
+- React
+- JavaScript
+- React Router
+- Recoil
+- Vite
+- Zod
+- Git
+
+---
+## 学んだこと
+
+- Atomic Designを意識したコンポーネント設計
+- React Routerを利用した画面遷移
+- Recoilを利用した状態管理
+- API通信を伴う画面実装
+- Zodを利用したバリデーション
+- Gitを利用したブランチ運用
+- 既存コードを理解し、機能追加・改修を行う開発フロー
+
+---
+
+## 開発方法
+
+```bash
+npm install
 npm run dev
 ```
 
-5. ブラウザで[localhost:8000](http://localhost:8000)が立ち上がり、ログイン画面が表示されていることを確認
+※ 本アプリは研修環境のAPIサーバーを利用しているため、機能が正常に動作しない可能性があります。
+画面イメージをご参照ください。
 
-6. ログイン画面で以下の情報を入力しログイン
+---
 
-| メールアドレス   | パスワード |
-| ---------------- | ---------- |
-| guest@gizumo.com | gizumowiki |
+## 補足
 
-<h2 id ="used-technology">使用技術</h2>
+本リポジトリは、前職のWebアプリケーション開発研修で制作した成果物を、ポートフォリオ提出用として整理したものです。
 
-![node version](https://img.shields.io/badge/node-18.16.0-48C628.svg?style=flat-square) ![npm version](https://img.shields.io/badge/npm-9.5.1-2D7DBE.svg?style=flat-square) ![volta version](https://img.shields.io/badge/volta-1.0.8~-EDCF3A.svg?style=flat-square)
+研修環境のAPIサーバーを利用しているため、一部機能が正常に動作しない場合があります。
 
-|  ライブラリ  | バージョン |                ドキュメント                |
-| :----------: | :--------: | :----------------------------------------: |
-|    React     |  18.12.0   |             https://react.dev/             |
-| React Router |   6.10.0   |      https://reactrouter.com/en/main       |
-|    Recoil    |   0.7.7    |           https://recoiljs.org/            |
-| CSS Modules  |            | https://github.com/css-modules/css-modules |
-|     clsx     |   1.2.1    |   https://github.com/lukeed/clsx#readme    |
-|  Storybook   |   7.0.6    |         https://storybook.js.org/          |
-|     Zod      |   3.21.4   |              https://zod.dev/              |
-|     Vite     |   4.3.0    |           https://ja.vitejs.dev/           |
-
-<h2 id ="directory-config">ディレクトリ構成</h2>
-
-各ディレクトリ・ファイルの役割は以下のようになっています。
-
-```
-.
-├── .github            # プルリクエストのテンプレなどGitHubの設定
-├── .husky             # husky(commit時のGitフック)の設定
-├── .scaffdog          # scaffdog(コンポーネント自動生成)の設定
-├── .storybook         # Storybookの設定
-├── .vscode            # ワークスペースのVSCode設定
-├── assets             # 画像などの静的ファイル
-├── docs               # API仕様書などのドキュメント
-├── env                # 環境変数ファイル
-├── src
-│   ├── components     # Atomic Designによるコンポーネント管理
-│   ├── hooks          # 汎用的なカスタムフック
-│   ├── libs           # node_modulesのライブラリをラップしたwrapper関数
-│   ├── routes         # ルーティング設定
-│   ├── schemas        # バリデーションスキーマ
-│   ├── stores         # グローバルstate(Recoil)
-│   ├── styles         # 汎用的なスタイル
-│   ├── utils          # 汎用的な関数
-│   └── main.jsx       # Reactのルートコンポーネント
-├── .eslintrc.json     # ESLintの設定ファイル
-├── .gitignore         # gitの管理対象から外すファイルを記載
-├── .lintstagedrc.js   # lint-staged設定ファイル
-├── .prettierrc.json   # Prettierの設定ファイル
-├── .stylelintrc.json  # Stylelintの設定ファイル
-├── index.html
-├── jsconfig.json      # JavaScriptの設定ファイル
-├── package-lock.json  # インストールしたパッケージの詳細なバージョンを記載
-├── package.json       # インストールするパッケージのバージョン範囲とその他設定
-└── vite.config.js     # Viteの設定ファイル
-```
-
-<h2 id ="atomic-design">Atomic Design 責務早見表</h2>
-
-|           |      再利用性      |       style        |   store(Recoil)    |    ドメイン知識    |                                      責務                                       |
-| :-------: | :----------------: | :----------------: | :----------------: | :----------------: | :-----------------------------------------------------------------------------: |
-|   atoms   | :white_check_mark: | :white_check_mark: |        :x:         |        :x:         |           最小単位の UI コンポーネント <br> ex: Button, Heading</div>           |
-| molecules | :white_check_mark: | :white_check_mark: |        :x:         |        :x:         |                     atoms を組み合わせた UI コンポーネント                      |
-| organisms |        :x:         |     :warning:      | :white_check_mark: | :white_check_mark: |          ドメイン知識を持つ<br>API 通信によりリソースのやり取りを行う           |
-| templates | :white_check_mark: | :white_check_mark: |        :x:         |        :x:         |                  organisms を使用した再利用可能なテンプレート                   |
-|   pages   |        :x:         |     :warning:      | :white_check_mark: | :white_check_mark: | URL に対応した一意なページ<br>React Router の path が各ページにマッピングされる |
+提出にあたり、既知の不具合について一部修正を行い、現在動作する状態へ調整しています。
