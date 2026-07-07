@@ -2,6 +2,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
+  background-color: var(--color-bg-base);
 }
 
 .wrapper {
@@ -12,9 +13,12 @@
 }
 
 .main {
-  padding: 24px 36px;
+  padding: 24px 32px;
+  background-color: var(--color-bg-base);
+  min-height: 0;
+  overflow: auto;
 }
 
 .overflow-scroll {
-  overflow: scroll;
+  overflow: auto;
 }

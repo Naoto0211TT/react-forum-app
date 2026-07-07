@@ -1,43 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap');
 
 :root {
-  /* Main & Accent Color */
-  --color-primary: #563bff;
-  --color-secondary: #fc783f;
-  --color-accent-red: #dc2647;
+  /* Main & Accent Color - 明るくモダンなカラーパレット */
+  --color-primary: #6366f1; /* Indigo - 現代的で落ち着いた青紫 */
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #4f46e5;
+  --color-secondary: #f59e0b; /* Amber - 温かみのあるオレンジ */
+  --color-secondary-light: #fbbf24;
+  --color-accent-red: #ef4444; /* 明るい赤 */
+  --color-accent-pink: #ec4899; /* ポップなピンク */
+  --color-accent-teal: #14b8a6; /* 爽やかなティール */
+  --color-accent-green: #22c55e; /* 明るい緑 */
 
-  /* Background Color */
-  --color-bg-purple-light: #f8f9fd;
+  /* Background Color - 明るく清潔感のある背景 */
+  --color-bg-base: #fafafa; /* 全体背景 */
   --color-bg-white: #fff;
-  --color-bg-success: #ebfff0;
-  --color-bg-danger: #fde7e7;
-  --color-bg-warning: #fdf0e7;
-  --color-bg-disable: #ccc;
-  --color-bg-info: #ebf8ff;
-  --color-bg-hover: #f2fcff;
-  --color-bg-purple: #e9e7fd;
+  --color-bg-light: #f8fafc; /* 薄いグレーがかった白 */
+  --color-bg-card: #fff;
+  --color-bg-success: #dcfce7;
+  --color-bg-danger: #fef2f2;
+  --color-bg-warning: #fef3c7;
+  --color-bg-info: #dbeafe;
+  --color-bg-disable: #e5e7eb;
+  --color-bg-hover: #f0f9ff;
+  --color-bg-purple-light: #eef2ff; /* 薄いインディゴ */
+  --color-bg-purple: #e0e7ff;
 
-  /* Text Color */
-  --color-text-main: #21213b;
+  /* Text Color - 読みやすくモダンなテキストカラー */
+  --color-text-main: #1e293b; /* 濃いスレート */
+  --color-text-sub: #64748b; /* サブテキスト */
   --color-text-white: #fff;
-  --color-text-red: #ff3b3b;
-  --color-text-purple: #7979b4;
-  --color-text-purple-dark: #68688a;
+  --color-text-red: #ef4444;
+  --color-text-purple: #6366f1;
+  --color-text-purple-dark: #4338ca;
+  --color-text-muted: #94a3b8;
 
-  /* Border Color */
-  --color-border: #cdcde0;
-  --color-border-light: #f4f4fa;
-  --color-border-success: #23f55e;
-  --color-border-danger: #ff3b3b;
-  --color-border-warning: #ff6a3b;
-  --color-border-info: #2390f5;
+  /* Border Color - 柔らかい境界線 */
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+  --color-border-dark: #cbd5e1;
+  --color-border-success: #22c55e;
+  --color-border-danger: #ef4444;
+  --color-border-warning: #f59e0b;
+  --color-border-info: #3b82f6;
+  --color-border-focus: #6366f1;
 
-  /* Shadow Color */
-  --hover-interactive-element-opacity: 0.8;
+  /* Shadow - 柔らかい影 */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 8px 10px -6px rgb(0 0 0 / 10%);
+
+  /* Interactive Elements */
+  --hover-interactive-element-opacity: 0.9;
   --hover-interactive-element-duration: 0.2s;
+
+  /* Border Radius - より丸みを帯びたデザイン */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
 
   /* Font Weight */
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
   --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
 
@@ -54,6 +81,7 @@ body {
 
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -61,6 +89,10 @@ body {
     'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {

@@ -1,54 +1,89 @@
 .button {
-  height: 38px;
-  padding: 4px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 8px 20px;
   font-size: 14px;
-  font-weight: bold;
-  line-height: 100%;
+  font-weight: 600;
+  line-height: 1;
   color: var(--color-text-white);
   white-space: nowrap;
   cursor: pointer;
   border: none;
-  border-radius: 5px;
-  transition: opacity var(--hover-interactive-element-duration);
+  border-radius: var(--radius-md);
+  transition: all var(--hover-interactive-element-duration) ease-in-out;
+  box-shadow: var(--shadow-sm);
 }
 
-.button::before {
-  display: inline-block;
-  height: 14px;
-  vertical-align: middle;
-  content: '';
+.button:active {
+  transform: scale(0.98);
 }
 
 .button:disabled {
   cursor: not-allowed;
   background-color: var(--color-bg-disable);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  opacity: 0.6;
 }
 
 .button:not(:disabled):hover {
   opacity: var(--hover-interactive-element-opacity);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .primary {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+}
+
+.primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
 }
 
 .secondary {
-  background-color: var(--color-secondary);
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+  color: var(--color-text-white);
+}
+
+.secondary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-secondary-light) 0%, var(--color-secondary) 100%);
 }
 
 .danger {
-  background-color: var(--color-accent-red);
+  background: linear-gradient(135deg, var(--color-accent-red) 0%, #dc2626 100%);
+}
+
+.danger:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dc2626 0%, var(--color-accent-red) 100%);
 }
 
 .icon-only {
   height: auto;
-  padding: 7px;
+  padding: 8px;
   background-color: transparent;
   border-radius: 50%;
+  box-shadow: none;
+  color: var(--color-text-sub);
+}
+
+.icon-only:hover:not(:disabled) {
+  background-color: var(--color-bg-purple-light);
+  color: var(--color-primary);
+  opacity: 1;
+  box-shadow: none;
+  transform: none;
 }
 
 .white {
   color: var(--color-primary);
   background-color: var(--color-text-white);
-  border: 1px solid var(--color-primary);
+  border: 2px solid var(--color-primary);
+  font-weight: 600;
+}
+
+.white:hover:not(:disabled) {
+  background-color: var(--color-bg-purple-light);
+  opacity: 1;
 }

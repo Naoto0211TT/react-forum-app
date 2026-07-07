@@ -1,6 +1,7 @@
 .icon {
   display: inline-block;
   vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .mainColor path {
@@ -19,8 +20,8 @@
 }
 
 .success path {
-  color: var(--color-border-success);
-  stroke: var(--color-border-success);
+  color: var(--color-accent-green);
+  stroke: var(--color-accent-green);
 }
 
 .danger path {
@@ -41,4 +42,9 @@
 .primary path {
   color: var(--color-primary);
   stroke: var(--color-primary);
+}
+
+.sub path {
+  color: var(--color-text-sub);
+  stroke: var(--color-text-sub);
 }

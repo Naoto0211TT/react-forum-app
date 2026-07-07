@@ -1,17 +1,27 @@
 .button-link {
-  display: inline-block;
-  height: 38px;
-  padding: 4px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 8px 20px;
   font-size: 14px;
-  font-weight: bold;
-  line-height: 2;
+  font-weight: 600;
+  line-height: 1;
   color: var(--color-text-white);
   text-decoration: none;
-  background-color: var(--color-primary);
-  border-radius: 5px;
-  transition: opacity var(--hover-interactive-element-duration);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-radius: var(--radius-md);
+  transition: all var(--hover-interactive-element-duration) ease-in-out;
+  box-shadow: var(--shadow-sm);
 }
 
 .button-link:hover {
-  opacity: var(--hover-interactive-element-opacity);
+  opacity: 1;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+}
+
+.button-link:active {
+  transform: scale(0.98);
 }
