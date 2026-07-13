@@ -14,9 +14,25 @@ axios.interceptors.request.use((request) => {
 })
 
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (
+      response.data &&
+      (response.data.message === 'token has expired' ||
+        response.data.message === 'Token has expired' ||
+        response.data.message === 'Token not provided')
+    ) {
+      Cookies.remove('auth-token')
+      window.location.href = '/login'
+      return Promise.reject(response.data)
+    }
+    return response
+  },
   (error) => {
     if (isAxiosError(error)) {
+      if (error.response && error.response.status === 401) {
+        Cookies.remove('auth-token')
+        window.location.href = '/login'
+      }
       return Promise.reject(error.response)
     }
     return Promise.reject(error)

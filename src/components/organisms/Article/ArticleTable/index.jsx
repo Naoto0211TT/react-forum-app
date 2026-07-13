@@ -44,7 +44,7 @@ export const ArticleTable = memo(({ rows, onDeleteIconClick }) => {
                   onDeleteIconClick(row.id, row.title)
                 }}
               >
-                <Icon iconName='trash' />
+                <Icon iconName='trash' color='danger' />
               </Button>
             </td>
           </tr>

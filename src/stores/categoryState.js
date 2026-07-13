@@ -42,8 +42,13 @@ export const useCategoryMutators = () => {
     axios
       .get('/category')
       .then(({ data }) => {
-        setCategories(data.categories)
-        setIsError(false)
+        if (data && Array.isArray(data.categories)) {
+          setCategories(data.categories)
+          setIsError(false)
+        } else {
+          setIsError(true)
+          error(data?.message || 'データの取得に失敗しました。')
+        }
       })
       .catch(() => {
         setIsError(true)
@@ -110,7 +115,7 @@ export const useCategoryMutators = () => {
     setIsLoading(true)
     return new Promise((resolve, reject) => {
       axios
-        .delete(`category/${id}`)
+        .delete(`/category/${id}`)
         .then(() => {
           success('カテゴリーを削除しました。')
           getCategoryList()

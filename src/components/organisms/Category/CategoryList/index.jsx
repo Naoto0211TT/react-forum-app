@@ -20,7 +20,7 @@ export const CategoryList = memo(({ className }) => {
   const { openModal, closeModal } = useModalMutators()
 
   const memoizedCategoryRows = useMemo(
-    () => [...categories].sort((a, b) => b.id - a.id),
+    () => [...(categories || [])].sort((a, b) => b.id - a.id),
     [categories]
   )
 

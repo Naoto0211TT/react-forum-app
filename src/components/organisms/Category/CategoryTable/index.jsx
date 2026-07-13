@@ -56,7 +56,7 @@ export const CategoryTable = memo(({ rows, onDeleteIconClick }) => {
                   onDeleteIconClick(row.id, row.name)
                 }}
               >
-                <Icon iconName='trash' />
+                <Icon iconName='trash' color='danger' />
               </Button>
             </td>
           </tr>

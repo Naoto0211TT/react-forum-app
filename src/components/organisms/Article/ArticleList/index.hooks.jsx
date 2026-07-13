@@ -1,6 +1,6 @@
 export const useArticleList = () => {
-  const articleRows = (articles) =>
-    articles.map((article) => {
+  const articleRows = (articles = []) =>
+    (articles || []).map((article) => {
       // HTMLタグを除去した記事本文
       const sanitizedContent = article.content.replace(
         /<("[^"]*"|'[^']*'|[^'">])*>/g,

@@ -11,13 +11,13 @@ import { List as CategoryList } from '@/components/pages/Category/List'
 import { Home } from '@/components/pages/Home'
 import { Login } from '@/components/pages/Login'
 
-export const router = (checkLogin) => {
+export const router = () => {
   return createBrowserRouter([
-    { path: '/', element: <Home />, loader: () => checkLogin() },
+    { path: '/', element: <Home /> },
+    { path: '/login', element: <Login /> },
     {
       path: '/category',
       element: <Category />,
-      loader: () => checkLogin(),
       children: [
         { index: true, element: <CategoryList /> },
         {
@@ -31,17 +31,8 @@ export const router = (checkLogin) => {
       ],
     },
     {
-      path: '/login',
-      element: <Login />,
-      loader: ({ request }) => {
-        const currentPath = request.url.split(/(?=\/)/g).slice(-1)[0]
-        return checkLogin('/category', currentPath)
-      },
-    },
-    {
       path: '/article',
       element: <Article />,
-      loader: () => checkLogin(),
       children: [
         { index: true, element: <ArticleList /> },
         {

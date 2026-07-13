@@ -9,7 +9,7 @@ import { InputField } from '@/components/molecules/InputField'
 import { SelectField } from '@/components/molecules/SelectField'
 import { WysiWygField } from '@/components/molecules/WysiWygField'
 
-import { createArticleSchema } from '@/schemas/artice'
+import { createArticleSchema } from '@/schemas/article'
 
 import styles from './index.module.css'
 

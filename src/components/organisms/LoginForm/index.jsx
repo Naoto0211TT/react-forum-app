@@ -1,8 +1,11 @@
+import Cookies from 'js-cookie'
 import PropTypes from 'prop-types'
 import { memo, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useUserInfoState, useUserInfoMutators } from '@/stores/userInfoState'
+import { axios } from '@/libs/axiosConfig'
+
+import { useNotification } from '@/hooks/useNotification'
 
 import { Button } from '@/components/atoms/Button'
 import { Heading } from '@/components/atoms/Heading'
@@ -14,73 +17,99 @@ import styles from './index.module.css'
 
 export const LoginForm = memo(({ className }) => {
   const navigate = useNavigate()
-  const { isLoading } = useUserInfoState()
-  const { login } = useUserInfoMutators()
+  const { success, error: showError } = useNotification()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState({ email: [], password: [] })
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [loginInfo, setLoginInfo] = useState({
-    email: '',
-    password: '',
-  })
+  const handleEmailChange = useCallback((e) => {
+    setEmail(e.target.value)
+    if (e.target.value) setErrors((prev) => ({ ...prev, email: [] }))
+  }, [])
 
-  const [errors, setErrors] = useState({
-    email: [],
-    password: [],
-  })
+  const handlePasswordChange = useCallback((e) => {
+    setPassword(e.target.value)
+    if (e.target.value) setErrors((prev) => ({ ...prev, password: [] }))
+  }, [])
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const { success, error } = loginSchema.safeParse(loginInfo)
-    if (error) {
-      setErrors(error.flatten().fieldErrors)
-      return
-    }
-    if (success) {
-      setErrors({ email: [], password: [] })
-      login(loginInfo.email, loginInfo.password).then(() => {
-        navigate('/article', { replace: true })
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+
+      const { success: isValid, error: validationError } = loginSchema.safeParse({
+        email,
+        password,
       })
-    }
-  }
+
+      if (!isValid) {
+        setErrors(validationError.flatten().fieldErrors)
+        return
+      }
+
+      setErrors({ email: [], password: [] })
+      setIsLoading(true)
+
+      const params = new URLSearchParams()
+      params.append('email', email)
+      params.append('password', password)
+
+      axios
+        .post('/me', params)
+        .then(({ data }) => {
+          if (data && data.token) {
+            Cookies.set('auth-token', data.token)
+            success('ログインしました。')
+            navigate('/')
+          } else {
+            showError('ログインに失敗しました。')
+          }
+        })
+        .catch((err) => {
+          if (err?.data?.message) {
+            showError(err.data.message)
+          } else {
+            showError('メールアドレスまたはパスワードが正しくありません。')
+          }
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    },
+    [email, password, navigate, success, showError]
+  )
 
   return (
     <div className={className}>
-      <Heading align='center'>Gizumo Wiki</Heading>
+      <Heading align='center'>Wiki</Heading>
       <form onSubmit={handleSubmit} className={styles.form}>
         <InputField
           label='メールアドレス'
-          value={loginInfo.email}
-          placeholder='mail@example.com'
-          htmlFor='email'
+          htmlFor='loginEmail'
           type='email'
           className={styles.email}
-          errorText={errors.email[0]}
-          onChange={useCallback(
-            (event) =>
-              setLoginInfo({ ...loginInfo, email: event.target.value }),
-            [loginInfo]
-          )}
+          value={email}
+          onChange={handleEmailChange}
+          errorText={errors.email ? errors.email[0] : ''}
+          disabled={isLoading}
         />
         <InputField
           label='パスワード'
-          value={loginInfo.password}
-          placeholder='********'
-          htmlFor='password'
+          htmlFor='loginPassword'
           type='password'
           className={styles.password}
-          errorText={errors.password[0]}
-          onChange={useCallback(
-            (event) =>
-              setLoginInfo({ ...loginInfo, password: event.target.value }),
-            [loginInfo]
-          )}
+          value={password}
+          onChange={handlePasswordChange}
+          errorText={errors.password ? errors.password[0] : ''}
+          disabled={isLoading}
         />
         <Button
           type='submit'
           buttonStyle='primary'
-          disabled={!loginInfo.email || !loginInfo.password || isLoading}
           className={styles.button}
+          disabled={isLoading}
         >
-          ログイン
+          {isLoading ? 'ログイン中...' : 'ログイン'}
         </Button>
       </form>
     </div>

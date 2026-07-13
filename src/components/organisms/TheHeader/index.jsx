@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useCloseOnOutsideClick } from '@/hooks/useCloseOnOutsideClick'
 
-import { useUserInfoMutators, useUserInfoState } from '@/stores/userInfoState'
+import { useUserInfoState } from '@/stores/userInfoState'
 
 import { Icon } from '@/components//atoms/Icon'
 import { Button } from '@/components/atoms/Button'
@@ -26,7 +26,6 @@ export const TheHeader = memo(() => {
   const dropdownAndButtonRef = useRef(null)
   const navigate = useNavigate()
   const { userInfo } = useUserInfoState()
-  const { logout } = useUserInfoMutators()
 
   useCloseOnOutsideClick(dropdownAndButtonRef, () => {
     setIsOpen(false)
@@ -36,16 +35,10 @@ export const TheHeader = memo(() => {
     setIsOpen(!isOpen)
   }
 
-  const handleLogout = () => {
-    logout().then(() => {
-      navigate('/login', { replace: true })
-    })
-  }
-
   return (
-    <header className={styles['the-header']}>
+    <header className={styles["the-header"]}>
       <Text size='xl' bold>
-        Gizumo Wiki
+        Wiki
       </Text>
       <div ref={dropdownAndButtonRef}>
         <Button onClick={toggleDropdown} buttonStyle='icon-only'>
@@ -53,15 +46,14 @@ export const TheHeader = memo(() => {
             iconName='userSettings'
             color='purple'
             size='large'
-            className={clsx(styles['user-icon'])}
+            className={clsx(styles["user-icon"])}
           />
         </Button>
         {isOpen && (
           <DropDown
             linkList={linkList}
-            className={styles['drop-down-wrapper']}
+            className={styles["drop-down-wrapper"]}
             userName={userInfo.full_name}
-            onLogout={handleLogout}
           />
         )}
       </div>

@@ -2,13 +2,14 @@ import PropTypes from 'prop-types'
 import { memo, useCallback, useEffect, useState } from 'react'
 
 import { useArticleMutators, useArticleState } from '@/stores/articleState'
+import { useCategoryState, useCategoryMutators } from '@/stores/categoryState'
 
 import { Button } from '@/components/atoms/Button'
 import { InputField } from '@/components/molecules/InputField'
 import { SelectField } from '@/components/molecules/SelectField'
 import { WysiWygField } from '@/components/molecules/WysiWygField'
 
-import { editArticleSchema } from '@/schemas/artice'
+import { editArticleSchema } from '@/schemas/article'
 
 import styles from './index.module.css'
 
@@ -24,10 +25,13 @@ export const ArticleEdit = memo(({ className, articleId }) => {
     content: [],
   })
   const [selectedCategoryInfo, setSelectedCategoryInfo] = useState(null)
+  const { categories } = useCategoryState()
+  const { getCategoryList } = useCategoryMutators()
   const { isLoading } = useArticleState()
   const { getArticleDetail, updateArticle } = useArticleMutators()
 
   useEffect(() => {
+    getCategoryList(true)
     getArticleDetail(articleId).then((data) => {
       setArticleInfo({
         title: data.title,
@@ -100,7 +104,10 @@ export const ArticleEdit = memo(({ className, articleId }) => {
         label='カテゴリー'
         value={selectedCategoryInfo}
         onChange={handleCategorySelectChange}
-        options={[]}
+        options={categories.map((c) => ({
+          value: c,
+          label: c.name,
+        }))}
         errorText={errors.category_id ? errors.category_id[0] : ''}
       />
       <WysiWygField

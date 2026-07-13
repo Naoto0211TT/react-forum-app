@@ -16,10 +16,10 @@ export default defineConfig({
     react(),
     checker({
       eslint: {
-        lintCommand: "eslint '**/*.@(js|jsx)'",
+        lintCommand: 'eslint "src/**/*.{js,jsx}"',
       },
       stylelint: {
-        lintCommand: "stylelint 'src/**/*.@(css)'",
+        lintCommand: 'stylelint "src/**/*.css"',
       },
     }),
     env({ prefix: 'VITE', mountedPath: 'process.env' }),
