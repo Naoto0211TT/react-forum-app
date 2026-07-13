@@ -1,5 +1,0 @@
-- [ ] 1. `json-server` のインストールとスクリプト追加 (`package.json`)
-- [ ] 2. モックサーバー (`mock-server.cjs`) と初期データ (`db.json`) の作成
-- [ ] 3. 環境変数の変更 (`env/.env.development`)
-- [ ] 4. ログイン強制リダイレクトの解除 (`axiosConfig.js`)
-- [ ] 5. 動作・ビルド検証 (`npm run build`)
